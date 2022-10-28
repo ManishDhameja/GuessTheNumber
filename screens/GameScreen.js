@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView,Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import NumberContainer from '../components/NumberContainer';
@@ -67,23 +67,26 @@ const GameScreen = props => {
   };
 
   return (
-    <View style={styles.screen}>
-      <Text style={DefaultStyles.title}>Opponent's Guess</Text>
-      <NumberContainer>{currentGuess}</NumberContainer>
-      <Card style={styles.buttonContainer}>
-        <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
-          <Ionicons name="md-remove" size={24} color="white" />
-        </MainButton>
-        <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
-          <Ionicons name="md-add" size={24} color="white" />
-        </MainButton>
-      </Card>
-      <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.list}>
-          {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
-        </ScrollView>
+    <ScrollView>
+
+      <View style={styles.screen}>
+        <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <Card style={styles.buttonContainer}>
+          <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+            <Ionicons name="md-remove" size={24} color="white" />
+          </MainButton>
+          <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+            <Ionicons name="md-add" size={24} color="white" />
+          </MainButton>
+        </Card>
+        <View style={styles.listContainer}>
+          <ScrollView contentContainerStyle={styles.list}>
+            {pastGuesses.map((guess, index) => renderListItem(guess, pastGuesses.length - index))}
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -96,13 +99,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: Dimensions.get('window').height > 600 ? 20 : 10,
     width: 400,
     maxWidth: '90%'
   },
   listContainer: {
     flex: 1,
-    width: '80%'
+    width: Dimensions.get('window').width > 350 ? '60%' : '80%'
   },
   list: {
     flexGrow: 1,
